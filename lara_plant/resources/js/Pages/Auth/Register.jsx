@@ -14,7 +14,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        defaultSelectValue:'',
+       defaultSelectValue:'',
     });
 
     
@@ -115,9 +115,9 @@ export default function Register() {
                     />
 
                     <select
-                        id="role"
-                        type="role"
-                        name="role"
+                        id="roles"
+                        type="roles"
+                        name="roles"
                         defaultValue={selected}
                         style={{ color: selected === defaultSelectValue ? "gray" : "black" }}
                         className="mt-1 block w-full"
@@ -127,9 +127,9 @@ export default function Register() {
                         }
                         >
                          <option>{defaultSelectValue}</option>
-                          <option>Admin</option>
-                          <option>Agent</option>
-                          <option>User</option>
+                          <option>admin</option>
+                          <option>agent</option>
+                          <option>user</option>
                    </select>
 
                     <InputError

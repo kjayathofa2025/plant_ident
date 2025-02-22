@@ -1,8 +1,9 @@
-import AdminLayout from '@/Layouts/adminLayout';
-import Management from '@/Layouts/adminLayout/management';
-import Schedule from '@/Layouts/adminLayout/schedule';
+import AdminLayout from '@/Layouts/AdminLayout';
+import Management from '@/Layouts/AdminLayout/management';
+import Schedule from '@/Layouts/AdminLayout/schedule';
 
 export default function Dashboard({ auth }) {
+   // export default function Dashboard() {
     return (
         <AdminLayout>
             <section className="py-5 widgets">
