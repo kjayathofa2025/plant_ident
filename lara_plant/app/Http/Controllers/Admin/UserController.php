@@ -26,7 +26,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('Users/Create');
+     //   dd("Welcome User Create");
+       // return Inertia::render('users.create');
+       return Inertia::render('Users/Create');
     }
 
     public function store(Request $request)
@@ -35,7 +37,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', 'string','max:255'],
+          //  'role' => ['required', 'string','max:255'],
         ]);
 
         User::create($validatedData);

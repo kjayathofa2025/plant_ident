@@ -1,5 +1,5 @@
-import React from 'react'
-import favicon from '../../../images/favicon.png'
+import React from 'react';
+import favicon from '@/images/favicon.png';
 const Footer = () => {
     return (
         <>
@@ -96,7 +96,7 @@ const Footer = () => {
                 </div>
             </footer>
         </>
-    )
-}
+    );
+};
 
 export default Footer

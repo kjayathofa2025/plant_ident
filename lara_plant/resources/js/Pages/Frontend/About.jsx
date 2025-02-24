@@ -1,5 +1,5 @@
 import React from 'react';
-import secondbanner from '../../../images/secondbanner.jpg'
+import secondbanner from '@/images/secondbanner.jpg';
 
 const About = () => {
     return (

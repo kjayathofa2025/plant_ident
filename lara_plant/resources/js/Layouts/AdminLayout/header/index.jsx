@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import india from "../../../../images/india.png";
-import us from "../../../../images/united-states-of-america.png";
+import india from "@/images/india.png";
+import us from "@/images/united-states-of-america.png";
 import Dropdown from "@/Components/Dropdown";
 import { usePage } from "@inertiajs/react";
 

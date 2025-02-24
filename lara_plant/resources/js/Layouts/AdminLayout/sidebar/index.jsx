@@ -18,7 +18,7 @@ export default function Sidebar() {
 
 
           <Link href={route("user_profile.show")}> <img
-            src={`"storage/images/${userProfileImage}`}
+            src="{{asset(`storage/images/' .$userProfileImage)}}"
             alt="user"
             className="rounded-circle mx-auto border border-white"
             width="100"
@@ -45,20 +45,11 @@ export default function Sidebar() {
           <ul className="list-unstyled text-white mt-3">
             <li>
               <NavLink
-                href={route('/')} active={route().current('/')}
-                className="rounded-3 py-2 px-3 mb-1 d-flex text-decoration-none text-white"
-              >
-                <i className="bi bi-kanban fs-5"></i>
-                <span className="text-white mt-1">Agent</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 href={route('users.index')} active={route().current('users.index')}
                 className="rounded-3 py-2 px-3 mb-1 d-flex text-decoration-none text-white"
               >
                 <i className="bi bi-kanban fs-5"></i>
-                <span className="text-white mt-1">Users</span>
+                <span className="text-white mt-1">Users </span>
               </NavLink>
             </li>
             <li>

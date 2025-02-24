@@ -1,5 +1,5 @@
 import React from 'react';
-import fifthbanner from '../../../images/favicon.png'
+import fifthbanner from '@/images/favicon.png'
 
 const LandingArea = () => {
     return (

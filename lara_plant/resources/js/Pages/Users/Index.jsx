@@ -2,9 +2,10 @@ import React from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 
 import { CiMenuKebab } from 'react-icons/ci';
-import { Link } from '@inertiajs/react';
+import { Link,router } from '@inertiajs/react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { BsPlusCircleFill } from 'react-icons/bs';
 
 const Index = ({ users }) => {
     const downloadPDF = () => {
@@ -44,11 +45,33 @@ const Index = ({ users }) => {
     return (
         <div className="container-fluid">
             <div className="responsive-table">
-                <table className="admin_table table">
-                    <thead className="table_header">
+               <div className="col-lg-3 col-md-12">
+               <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                 <h3 className="m-0 text-center text-lg-start">Users</h3>
+                    <div className="d-flex align-items-center w-250 pl-15">
+                        <span className="search me-3">
+                               <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                         </span>
+                        <form className="search" action="">
+                            <input className="search border rounded" id="myInput" type="text" placeholder="Search" />
+                       </form>
+                    </div>
+                    <div className="d-flex align-items-center w-20 h-25 pl-20">
+                         <button className='btn btn-success d-flex align-items-center border-0 me-2'>
+                             <BsPlusCircleFill className='fs-5' />
+                              <Link href={route('users.create')} className="ms-2 text-white text-decoration-none" type="button">Add</Link>
+                            </button>
+                         <button className="btn btn-primary mb-4 pl-10" onClick={downloadPDF}>
+                        Download PDF
+                    </button>
+                    </div>
+                   </div>
+                 </div>
+                <table className="admin_table table ">
+                        <thead className="table_header ">
                         <tr>
-                            <th>Sr. No</th>
-                            <th>
+                            <th >Sr. No</th>
+                            <th > 
                                 <div className="d-flex align-items-end justify-content-start">
                                     Name
                                     <span className="d-inline-flex flex-column up_down_icon">
@@ -78,30 +101,9 @@ const Index = ({ users }) => {
                         </tr>
                     </thead>
                     <tbody className="table_body">
-                    <div className="col-lg-3 col-md-12">
-                                <h3 className="m-0 text-center text-lg-start">Users</h3>
-                            </div>
-                            <div className="col-lg-6 col-md-12 card-body p-0">
-                                <div className="text-center text-xl-end">
-                                    <span className="search">
-                                        <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                                    </span>
-                                    <form className="search" action="">
-                                        <input className="search border rounded" id="myInput" type="text" placeholder="Search" />
-                                    </form>
-                                </div>
-                            </div>
-                        <tr className='text-center text-md-end'>
-                            <td colSpan="4" style={{paddingTop:"25px"}}>
-                                 <button className='btn btn-success d-flex align-items-center border-0 me-2'>
-                                    <BsPlusCircleFill className='fs-5' />
-                                    <Link  className="ms-2 text-white text-decoration-none" type="button">Add</Link>
-                                  </button>
-                                <button className="btn btn-primary mb-3" onClick={downloadPDF}>
-                                    Download PDF
-                                </button>
-                            </td>
-                        </tr>
+                     <tr className='text-center text-md-end'>
+                        <td colSpan="4" style={{paddingTop:"25px"}}>
+                       </td></tr>
                         {users.map((user, index) => (
                             <tr key={user.id}>
                                 <td data-label="Sr. No">{index + 1}</td>
@@ -140,7 +142,7 @@ const Index = ({ users }) => {
                                 </td>
                             </tr>
                         ))}
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>

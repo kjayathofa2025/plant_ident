@@ -3,7 +3,7 @@ import { usePage } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import UserProfileEdit from './UserProfileEdit';
 import UserPasswordChange from './UserPasswordChange';
-import show from '../../../images/profile1.png'
+import show from '@/images/profile1.png'
 
 
 const UserProfileShow = ({ user, userProfile }) => {
@@ -21,9 +21,7 @@ const UserProfileShow = ({ user, userProfile }) => {
             >
               <img
                 className="card-img "
-                id="output02" src={`/storage/images/${userProfile?.img}`}
-                alt="Title"
-              />
+                id="output02" src="{{$userProfile->img}}"              />
               <div className="card-img-overlay bottom-0" style={{ top: 'auto' }}>
                 <h4 className="card-title">
                   <i className="fa-regular fa-circle-user"></i>{auth.user.name}

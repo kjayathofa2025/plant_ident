@@ -57,6 +57,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    
+   
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings/update', [SettingController::class, 'update'])->name('settings.update');
     Route::get('/slides/sort', [SliderController::class, 'sort'])->name('slides.sort');
