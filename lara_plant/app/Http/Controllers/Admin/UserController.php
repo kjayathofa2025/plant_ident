@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Inertia\Response;
 
 
 class UserController extends Controller
@@ -20,29 +23,32 @@ class UserController extends Controller
             return $user;
         });
         return Inertia::render('Users/Index', [
-            'users' => $users, 'Index'
+            'users' => $users,'Index'
+         //   'flash' => session('flash'), 
         ]);
     }
 
     public function create()
     {
-     //   dd("Welcome User Create");
-       // return Inertia::render('users.create');
        return Inertia::render('Users/Create');
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-          //  'role' => ['required', 'string','max:255'],
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+           // 'role' => ['required|string|exist:roles,name'],
         ]);
 
-        User::create($validatedData);
-
-        return redirect()->route('users.index');
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password); // Hash the password
+        $user->save();
+        $user->assignRole($request->role);
+        return redirect()->route('users.index')->with('success', 'User created successfully!');
     }
 
     public function show(User $user)
@@ -53,11 +59,11 @@ class UserController extends Controller
     }
 
 
-    public function edit(User $user)
+    public function edit($id)
     {
-        return Inertia::render('Users/Edit', [
-            'user' => $user,
-        ]);
+
+        $data['getRecord'] = User::getSingle($id);
+        return Inertia::render('Users/Edit',$data);
     }
     public function userRoles($id)
     {
@@ -94,7 +100,7 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -102,17 +108,26 @@ class UserController extends Controller
             'password' => ['nullable', 'string', 'min:8'],
         ]);
 
-        $user->update($validatedData);
-
-        return redirect()->route('users.index');
+        $user = User :: getSingle($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password); // Hash the password
+        $user->save();
+        $user->assignRole($request->role);
+        return redirect()->route('users.index')->with('success', 'User Update successfully!');
     }
 
     public function destroy(String $id)
     {
-        $user = User::find($id);
-        if ($user) {
+        $user = User::getSingle($id);
+       // dd($user->name);
+        if ($user) 
+        {
             $user->delete();
-            return to_route('users.index');
+            return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+        } else {
+            // If the user does not exist, redirect with an error message
+            return redirect()->route('users.index')->with('error', 'User not found!');
         }
     }
 }

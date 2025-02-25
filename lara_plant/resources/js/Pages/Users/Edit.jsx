@@ -1,15 +1,14 @@
 import { useForm } from "@inertiajs/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminLayout from '@/Layouts/AdminLayout'
 import PrimaryButton from '@/Components/PrimaryButton';
 
-const Create = () => {
+const Edit = ({user}) => {
   const {data,setData,post,errors} = useForm({
-    name:"",
-    email:"",
+    name:user.name || "",
+    email:user.email || "",
     password:"",
-    password_confirmation: "",
-    role:"",
+    role:user.role || "",
   });
   const [successMessage, setSuccessMessage] = useState("");
   const handleChange = (e) => {
@@ -18,8 +17,13 @@ const Create = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSuccessMessage("");
-    post(route("users.store"));
+    post(route("users.update",user.id));
   };
+  useEffect(() => {
+    if (successMessage) {
+      setTimeout(() => setSuccessMessage(""), 5000); // Hide success message after 5 seconds
+    }
+  }, [successMessage]);
   return (
     <div className="container-fluid">
      <div className="row">
@@ -27,7 +31,7 @@ const Create = () => {
             <div className="card">
                 <div className="card-body">
                     <div className="form theme-form">
-                         <h2>Add New User/Agent</h2>
+                         <h2>Edit User/Agent</h2>
                              {successMessage && <div className="alert alert-success">{successMessage}</div>}
                         {/* Display validation errors */}
                           {errors.general && <div className="alert alert-danger">{errors.general}</div>}
@@ -74,24 +78,6 @@ const Create = () => {
                                 </div>
                                 </div>
                                 </div>
-                           <div className="row">
-                          <div className="col">
-                           <div className="mb-3">
-                              <label className="pb-2 fw-medium">Confirm Password</label>
-                              <input
-                                type="password"
-                                name="password_confirmation"
-                                id="password_confirmation"
-                                value={data.passwordConfirmation}
-                                onChange={handleChange}
-                                className="form-control"
-                              />
-                              {errors.password_confirmation && (
-                                <div className="text-danger">{errors.password_confirmation}</div>
-                              )}
-                            </div>
-                            </div>
-                            </div>
                             <div className="row">
                           <div className="col">
                            <div className="mb-3">
@@ -119,5 +105,5 @@ const Create = () => {
     </div>
   );
 };
-Create.layout = (page) => <AdminLayout>{page}</AdminLayout>;
-export default Create;
+Edit.layout = (page) => <AdminLayout>{page}</AdminLayout>;
+export default Edit;

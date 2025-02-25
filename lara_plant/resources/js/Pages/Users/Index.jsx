@@ -1,13 +1,14 @@
 import React from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
-
+import { useState, useEffect } from "react";
 import { CiMenuKebab } from 'react-icons/ci';
-import { Link,router } from '@inertiajs/react';
+import { Link}  from '@inertiajs/react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { BsPlusCircleFill } from 'react-icons/bs';
+import { BsPlusCircleFill,BsDashCircleFill } from 'react-icons/bs';
 
 const Index = ({ users }) => {
+
     const downloadPDF = () => {
         const doc = new jsPDF();
         const table = document.querySelector('.admin_table');
@@ -41,7 +42,7 @@ const Index = ({ users }) => {
 
         doc.save('user_details.pdf');
     };
-
+    
     return (
         <div className="container-fluid">
             <div className="responsive-table">
@@ -56,16 +57,15 @@ const Index = ({ users }) => {
                             <input className="search border rounded" id="myInput" type="text" placeholder="Search" />
                        </form>
                     </div>
-                    <div className="d-flex align-items-center w-20 h-25 pl-20">
-                         <button className='btn btn-success d-flex align-items-center border-0 me-2'>
+                     <div className="d-flex align-items-center justify-content-end w-100 pl-20">
+                         <button className='btn btn-success d-flex align-items-center border-0 me-4 justify-content-end '>
                              <BsPlusCircleFill className='fs-5' />
-                              <Link href={route('users.create')} className="ms-2 text-white text-decoration-none" type="button">Add</Link>
+                              <Link href={route('users.create')} className="ms-2 text-white text-decoration-none " type="button">AddUser</Link>
                             </button>
-                         <button className="btn btn-primary mb-4 pl-10" onClick={downloadPDF}>
-                        Download PDF
+                         <button className="btn btn-success d-flex align-items-center border-0 me-2  justify-content-end" onClick={downloadPDF}>
+                        DownloadPDF
                     </button>
-                    </div>
-                   </div>
+                    </div></div>
                  </div>
                 <table className="admin_table table ">
                         <thead className="table_header ">
@@ -76,13 +76,31 @@ const Index = ({ users }) => {
                                     Name
                                     <span className="d-inline-flex flex-column up_down_icon">
                                         <i className="fa-solid fa-caret-up"></i>
-                                        <i className="fa-solid fa-caret-down"></i>
+                                           <i className="fa-solid fa-caret-down"></i>
                                     </span>
                                 </div>
                             </th>
                             <th>
                                 <div className="d-flex align-items-end justify-content-start">
                                     Email
+                                    <span className="d-inline-flex flex-column up_down_icon">
+                                        <i className="fa-solid fa-caret-up"></i>
+                                        <i className="fa-solid fa-caret-down"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="d-flex align-items-end justify-content-start">
+                                    Email_verified
+                                    <span className="d-inline-flex flex-column up_down_icon">
+                                        <i className="fa-solid fa-caret-up"></i>
+                                        <i className="fa-solid fa-caret-down"></i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="d-flex align-items-end justify-content-start">
+                                    Created_On
                                     <span className="d-inline-flex flex-column up_down_icon">
                                         <i className="fa-solid fa-caret-up"></i>
                                         <i className="fa-solid fa-caret-down"></i>
@@ -102,43 +120,26 @@ const Index = ({ users }) => {
                     </thead>
                     <tbody className="table_body">
                      <tr className='text-center text-md-end'>
-                        <td colSpan="4" style={{paddingTop:"25px"}}>
+                        <td colSpan="6" style={{paddingTop:"25px"}}>
                        </td></tr>
                         {users.map((user, index) => (
                             <tr key={user.id}>
                                 <td data-label="Sr. No">{index + 1}</td>
                                 <td data-label="name">{user.name}</td>
                                 <td data-label="email">{user.email}</td>
+                                <td data-label="email_verified">{user.email_verified_at ? 'Yes': 'ON'}</td>
+                                <td data-label="created_on">{user.created_on}</td>
                                 <td data-label="Membership" style={{paddingRight:"17%"}}>
-                                    <div className="btn-group t_dropdown">
-                                        <CiMenuKebab
-                                            className="text-dark"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        />
-                                        <ul className="dropdown-menu dropdown-menu-end">
-                                            <li>
-                                                <a href="customer-id.html" className="dropdown-item">
-                                                    View Detail
-                                                </a>
-                                            </li>
-                                            <li class="edit">
-                                                <a className="dropdown-item" href={route('users.roles', user.id)}>
-                                                    Roles
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <Link
-                                                    as="button"
-                                                    href={route('users.destroy', user.id)}
-                                                    className="dropdown-item"
-                                                    method="delete"
-                                                >
-                                                    Delete
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div className="d-flex align-items-center">
+                                   <button className='btn btn-success d-flex align-items-center border-0 me-2'>
+                                      <BsPlusCircleFill className='fs-5' />
+                                      <Link href={route('users.edit', user.id)} className="ms-2 text-white text-decoration-none w-10" type="button">Edit</Link>
+                                   </button>
+                                   <button className='btn btn-danger d-flex align-items-center border-0 me-2'>
+                                      <BsDashCircleFill className='fs-5' />
+                                      <Link href={route('users.destroy', user.id)} className="ms-2 text-white text-decoration-none w-10" type="button">Delete</Link>
+                                   </button>
+                                </div>
                                 </td>
                             </tr>
                         ))}
