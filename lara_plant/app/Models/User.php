@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\UserProfile;
 
 class User extends Authenticatable
 {
@@ -36,7 +37,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
 
+    public function role()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+  
     /**
      * Get the attributes that should be cast.
      *

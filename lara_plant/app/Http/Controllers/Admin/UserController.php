@@ -62,12 +62,11 @@ class UserController extends Controller
     public function edit($id)
     {
 
-        $data['getRecord'] = User::getSingle($id);
-        return Inertia::render('Users/Edit',$data);
+        $user = User::getSingle($id);
+        return Inertia::render('Users/Edit',['user' =>$user,]);
     }
     public function userRoles($id)
     {
-      //  $user = User::with('roles')->findOrFail($id);
         $user = User::with('role')->findOrFail($id);
         $roles = Role::all();
 
@@ -100,20 +99,23 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update( $id, Request $request)
     {
+        $user = User :: getSingle($id);
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)],
-            'password' => ['nullable', 'string', 'min:8'],
+            'name' => 'required', 
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'required',
         ]);
 
-        $user = User :: getSingle($id);
+        
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password); // Hash the password
-        $user->save();
+        if(!empty($request->password))
+               $user->password = Hash::make($request->password); // Hash the password
         $user->assignRole($request->role);
+        $user->update();
+        
         return redirect()->route('users.index')->with('success', 'User Update successfully!');
     }
 

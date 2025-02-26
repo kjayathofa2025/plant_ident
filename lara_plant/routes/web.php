@@ -49,14 +49,13 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('users/roles/{id}', [UserController::class, 'userRoles'])->name('users.roles');
-    Route::post('users/save-roles', [UserController::class, 'saveRole'])->name('userRoles.save');
+    Route::get('/users/roles/{id}', [UserController::class, 'userRoles'])->name('users.roles');
+    Route::post('/users/save-roles', [UserController::class, 'saveRole'])->name('userRoles.save');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-   // Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/edit/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::post('/users/edit/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     
    
@@ -108,8 +107,19 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::patch('/user/profile/update', [UserProfileController::class, 'update'])->name('user_profile.update');
 });
 
+Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
+
+    Route::get('/userdashboard', function () {
+        return Inertia::render('UserDashboard');
+    })->name('userdashboard');
+    Route::get('/users1', [UserController::class, 'index'])->name('users1.index');
+
+
+});
+
 
 Route::middleware('auth')->group(function () {
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

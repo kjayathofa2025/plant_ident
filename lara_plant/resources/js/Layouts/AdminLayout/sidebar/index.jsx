@@ -7,7 +7,7 @@ import NavLink from "@/Components/NavLink";
 
 export default function Sidebar() {
   const { auth, userProfileImage } = usePage().props
-
+  const imageUrl = `/storage/images/${userProfileImage}`;
   return (
     <div className="sidebar h-100 pt-3">
       <div className="px-4" style={{ maxWidth: "100%" }}>
@@ -18,7 +18,7 @@ export default function Sidebar() {
 
 
           <Link href={route("user_profile.show")}> <img
-            src="{{asset(`storage/images/' .$userProfileImage)}}"
+            src={imageUrl}
             alt="user"
             className="rounded-circle mx-auto border border-white"
             width="100"
@@ -35,7 +35,7 @@ export default function Sidebar() {
         </div>
         <div className="ps-3">
           <NavLink style={{ borderBottom: 'none', }}
-            href={route('dashboard')} active={route().current('dashboard')}
+            href={auth.user.name == 'admin'?route('dashboard'):route('userdashboard')} active={auth.user.name == 'admin'?route().current('dashboard'):route().current('userdashboard')}
           >
             <span className="text-info fs-4">
               DASHBOARD</span>
@@ -45,7 +45,7 @@ export default function Sidebar() {
           <ul className="list-unstyled text-white mt-3">
             <li>
               <NavLink
-                href={route('users.index')} active={route().current('users.index')}
+                href={auth.user.name =='admin'?route('users.index'):route('users1.index')} active={route().current('users.index')}
                 className="rounded-3 py-2 px-3 mb-1 d-flex text-decoration-none text-white"
               >
                 <i className="bi bi-kanban fs-5"></i>

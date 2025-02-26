@@ -21,10 +21,11 @@ class AdminUserMiddleware
         if (Auth::guard($guard)->check() ) {
 
             $role = Auth::user()->roles()->first()->name; 
-            if( $role != 'admin')  
+         //  dd($role);
+            if( $role != 'admin' && $role != 'user')   
                 return redirect()->back()->withErrors(['message' => 'Unauthorized access']);
 
                }
-         return $next($request);  
+           return $next($request);  
     }
 }

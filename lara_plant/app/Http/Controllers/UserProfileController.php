@@ -13,9 +13,11 @@ class UserProfileController extends Controller
 
     public function show()
     {
-        $user = auth()->user();
+        $user = auth()->user()->load('profile');
+      //  dd(auth()->user());
         $userProfile = $user->profile;
-        return Inertia::render('Users/UserProfile', compact('user', 'userProfile'));
+      // dd($userProfile);
+        return Inertia::render('Users/UserProfile', ['user' => $user, 'userProfile' => $userProfile,]);
     }
 
     public function update(Request $request)

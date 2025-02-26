@@ -17,7 +17,10 @@ const Edit = ({user}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSuccessMessage("");
-    post(route("users.update",user.id));
+    post(route("users.update",user.id),{
+      onSuccess: ()=>{setSuccessMessage("User Update Successfully...");},
+    });
+
   };
   useEffect(() => {
     if (successMessage) {
